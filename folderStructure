@@ -1,0 +1,16 @@
+// Automatically creates set folder structure in After Effects on run script
+// Created by Desmond Du on 24 July 2019
+
+str = "01_OUTPUT,02_MAIN_COMPS,03_PRE_COMPS,04_ASSETS,05_REFERENCE,06_PROJECTS,07_RENDERS"; // Put comma between folder names & NO space between
+var res = str.split(",");
+
+var arr = res.map(function(date){
+    // Wrap each element of the dates array with quotes
+    return "\"" + date + "\"";
+}); // not needed actually
+
+
+for(var j = 0 ; j < res.length; j++)
+        {app.project.items.addFolder(res[j]);
+
+    }
