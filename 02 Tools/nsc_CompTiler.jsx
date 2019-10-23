@@ -17,26 +17,29 @@ app.beginUndoGroup("CompTiler");
 myComp = app.project.activeItem;
 
 // For Position expression:
-var gridPos = '\
+var gridPos = '\ // variable setting \
     var controlLayer = thisComp.layer("Start Tile");\
     var numColumns = Math.floor(thisComp.layer("Start Tile").effect("Columns")("Slider").value);\
-    var Mmargins = Math.floor(thisComp.layer("Start Tile").effect("Margins")("Slider").value);\
+    var myGutter = Math.floor(thisComp.layer("Start Tile").effect("Gutter")("Slider").value);\
+    var myMarginsX = Math.floor(thisComp.layer("Start Tile").effect("MarginsX")("Slider").value);\
+    var myMarginsY = Math.floor(thisComp.layer("Start Tile").effect("MarginsY")("Slider").value);\
+    \
     var tileIndex = index - controlLayer.index-1;\
     var columnIndex = tileIndex%numColumns;\
     var rowIndex = Math.floor(tileIndex/numColumns);\
-    var columnWidth = thisComp.width/numColumns ;\
+    var columnWidth = (thisComp.width+myGutter)/numColumns ;\
     var firstTile = thisComp.layer(controlLayer.index+1);\
-    var rowHeight = firstTile.height/firstTile.width*columnWidth;\
+    var rowHeight = (firstTile.height)/firstTile.width*(columnWidth)-(myGutter/4);\
     var xPos = columnWidth*(columnIndex+.5);\
     var yPos = rowHeight*(rowIndex+.5);\
-    [xPos, yPos];\
+    [xPos+myGutter+myMarginsX, yPos+myMarginsY/2];\
     '
 
 //For Scale expression:
 var gridScale = '\
     var controlLayer = thisComp.layer("Start Tile");\
     var numColumns = Math.floor(thisComp.layer("Start Tile").effect("Columns")("Slider").value);\
-    var Mmargins = Math.floor(thisComp.layer("Start Tile").effect("Margins")("Slider").value);\
+    var myGutter = Math.floor(thisComp.layer("Start Tile").effect("Gutter")("Slider").value);\
     var columnWidth = thisComp.width/numColumns ;\
     var firstTile = thisComp.layer(controlLayer.index+1);\
     var rowHeight = firstTile.width/firstTile.height*columnWidth;\
@@ -58,9 +61,12 @@ myNull.name= "Start Tile";
 var myColumns = myNull.property("Effects").addProperty("Slider Control");
 myColumns.name = "Columns"
 myColumns.property(1).setValue(5);
-var myMargins = myNull.property("Effects").addProperty("Slider Control");
-myMargins.name = "Margins"
-
+var myGutter = myNull.property("Effects").addProperty("Slider Control");
+myGutter.name = "Gutter"
+var myMarginsX = myNull.property("Effects").addProperty("Slider Control");
+myMarginsX.name = "MarginsX"
+var myMarginsY = myNull.property("Effects").addProperty("Slider Control");
+myMarginsY.name = "MarginsY"
 
 // Create End tile null layer
 
